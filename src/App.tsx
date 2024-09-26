@@ -12,7 +12,7 @@ function App() {
   const [activeSampleIndex, setActiveSampleIndex] = useState<null|number>(null);
   useEffect(() => {
     if (!samples.length) {
-      axios.get('http://localhost:8080/samples')
+      axios.get(`https://video-ai-backend.vercel.app/samples`)
         .then(response => {
           setSamples(response.data);
         });
@@ -36,13 +36,13 @@ function App() {
     ev.preventDefault();
     setLoadingMessage('Generating assets...');
     const assetsResponse = await axios.get(
-      'http://localhost:8080/create-story?url='+encodeURIComponent(url)
+      `https://video-ai-backend.vercel.app/create-story?url=`+encodeURIComponent(url)
     );
     const id = await assetsResponse.data;
     setLoadingMessage('Preparing your video...');
-    const videoResponse = await axios.get('http://localhost:8080/build-video?id='+id);
+    const videoResponse = await axios.get(`https://video-ai-backend.vercel.app/build-video?id=`+id);
     setLoadingMessage('');
-    window.location.href = 'http://localhost:8080/'+videoResponse.data;
+    window.location.href = `https://video-ai-backend.vercel.app/`+videoResponse.data;
   }
   return (
     <>
@@ -93,7 +93,7 @@ function App() {
                   opacity: samplesKey === activeSampleIndex ? '1': '0',
                   transform: 'scaleX(1) scaleY(1) scaleZ(1) rotateX(0deg) rotateY(0deg) rotateZ(3deg) translateX(0px) translateY(0px) translateZ(0px) skewX(0deg) skewY(0deg)'
                 }}
-                src={'http://localhost:8080/' + sample + '/final.mp4'}></video>
+                src={`https://video-ai-backend.vercel.app/` + sample + '/final.mp4'}></video>
             ))}
           </div>
         </div>
